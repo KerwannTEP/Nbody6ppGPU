@@ -18,6 +18,7 @@
       COMMON/POTDEN/  RHO(NMAX),XNDBL(NMAX),PHIDBL(NMAX)
 *      COMMON/NNBCOT/  nnbave
       REAL*8  X1(3,4),V1(3,4),UI(4),VI(4),XREL2(3),VREL2(3)
+      REAL*8  XI(3), UH, UHI
       REAL*4  XS(3,NMAX),VS(3,NMAX),BODYS(NMAX),RHOS(NMAX),AS(20)
       REAL*4  XJ(3,6),VJ(3,6),BODYJ(6)
       REAL*4  XNS(NMAX),PHI(NMAX)
@@ -256,10 +257,22 @@
 #endif
           GZ = RG(1)*VG(2) - RG(2)*VG(1)
           SX = RBAR/1000.0
+
+*     Compute potential energy from the host (N-body units)
+      UH = 0.0D0
+      IF (KZ(14).EQ.5) THEN
+         DO I = 1,N
+            UHI = 0.0D0
+            XI = (X(1:3,I) + RG)
+            call pmwpot(XI,UHI)
+            UH = UH + BODY(I)*UHI
+         END DO
+      END IF
+
           WRITE (6,78)  TTOT*TSTAR,(RG(K)*SX,K=1,3), 
-     &         (VG(K)*VSTAR,K=1,3),GZ, ETIDE
-   78     FORMAT (/,5X,'CLUSTER ORBIT   T RG VG JZ ET ',
-     &         1P,9E24.15,0P)
+     &         (VG(K)*VSTAR,K=1,3),GZ, ETIDE, UH
+   78     FORMAT (/,5X,'CLUSTER ORBIT   T RG VG JZ ET POTH ',
+     &         1P,10E24.15,0P)
       END IF
       IF (KZ(14).GE.3.AND.(MP.GT.0.0D0)) THEN 
           WRITE (6,79)  TTOT, N, RSCALE, ZMASS, MP, DETOT

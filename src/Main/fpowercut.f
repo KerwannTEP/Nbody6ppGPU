@@ -46,13 +46,13 @@
       REAL*8 FUNCTION M_PowCut(r,amp,alpha,rc)
 **    cumulative mass
 
-      REAL*8 R,amp,alpha,rc,pi,a,xup,ginc,gammds,gamma
+      REAL*8 R,amp,alpha,rc,pi,a,xup,ginc,gammad,gamma
       INTEGER ifault
       pi = 3.1415926535897932D0
 
       a = 1.5-alpha/2.0
       xup = (r/rc)**2.0
-      ginc =gammds(xup,a,ifault) 
+      ginc =gammad(xup,a,ifault) 
       M_PowCut = amp*2.0*pi*rc**(3.0-alpha)*ginc*gamma(a)
 
       return 
@@ -62,7 +62,7 @@
       REAL*8 FUNCTION Pot_PowCut(r,amp,alpha,rc)
 **    potential
 
-      REAL*8 r,alpha,rc,amp,pi,a,a2,xup,ginc,ginc2,gammds
+      REAL*8 r,alpha,rc,amp,pi,a,a2,xup,ginc,ginc2,gammad
       REAL*8 gamma,g,g2
       INTEGER ifault
       pi = 3.1415926535897932D0
@@ -70,12 +70,15 @@
       xup = (r/rc)**2.0
       a = 1.0D0 - 0.5D0*alpha
       a2= 1.5D0 - 0.5D0*alpha
-      ginc = gammds(xup, a,ifault) 
+      ginc = gammad(xup, a,ifault) 
       g = gamma(a)
-      ginc2 =gammds(xup,a2,ifault) 
+      ginc2 =gammad(xup,a2,ifault) 
       g2 = gamma(a2)
 
       Pot_PowCut = amp*2.0*pi*rc**(3.0-alpha)*(ginc*g/rc-ginc2*g2/r)
+*      Pot_PowCut = amp*2.0*pi*rc**(3.0-alpha)*
+*            &   (-ginc*(1.0-g)/rc - ginc2*g2/r)
+
       return 
       end
 

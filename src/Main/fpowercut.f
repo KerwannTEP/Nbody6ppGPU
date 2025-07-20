@@ -76,8 +76,6 @@
       g2 = gamma(a2)
 
       Pot_PowCut = amp*2.0*pi*rc**(3.0-alpha)*(ginc*g/rc-ginc2*g2/r)
-*      Pot_PowCut = amp*2.0*pi*rc**(3.0-alpha)*
-*            &   (-ginc*(1.0-g)/rc - ginc2*g2/r)
 
       return 
       end

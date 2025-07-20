@@ -492,6 +492,14 @@ c$$$     &           nmerge,name(j1),name(j2),name(icm)
                   VS(K,I2)  = REAL(V1(K,4))
                   XS(K,ICM2) = REAL(X(K,J2))
                   VS(K,ICM2) = REAL(XDOT(K,J2))
+
+                  XDB(K,I1) = DBLE(X1(K,3))
+                  XDB(K,I2)  = DBLE(X1(K,4))
+                  VDB(K,I1) = DBLE(V1(K,3))
+                  VDB(K,I2)  = DBLE(V1(K,4))
+                  XDB(K,ICM2) = DBLE(X(K,J2))
+                  VDB(K,ICM2) = DBLE(XDOT(K,J2))
+
                END DO
             END IF
          END IF

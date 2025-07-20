@@ -418,20 +418,30 @@ c$$$              END IF
                      BODYS(JG) = REAL(CM(2,IM))
                      BODYS(J1) = REAL(CM(1,IM2))
                      BODYS(JG2) = REAL(CM(2,IM2))
+                     BODYDB(JG) = DBLE(CM(2,IM))
+                     BODYDB(J1) = DBLE(CM(1,IM2))
+                     BODYDB(JG2) = DBLE(CM(2,IM2))      
                   ELSE
                      JP = JG - N
                      BODYS(2*JP-1) = REAL(CM(3,IM))
                      BODYS(2*JP) = REAL(CM(4,IM))
                      BODYS(JG2) = REAL(CM(2,IM2))
+                     BODYDB(2*JP-1) = DBLE(CM(3,IM))
+                     BODYDB(2*JP) = DBLE(CM(4,IM))
+                     BODYDB(JG2) = DBLE(CM(2,IM2))
                   END IF
                ELSE
                   IF (JG.LE.N) THEN
                      BODYS(JG) = REAL(CM(2,IM))
                      BODYS(JG2) = REAL(CM(2,IM2))
+                     BODYDB(JG) = DBLE(CM(2,IM))
+                     BODYDB(JG2) = DBLE(CM(2,IM2))
                   ELSE
                      JP = JG - N
                      BODYS(2*JP-1) = REAL(CM(3,IM2))
                      BODYS(2*JP) = REAL(CM(4,IM2))
+                     BODYDB(2*JP-1) = DBLE(CM(3,IM2))
+                     BODYDB(2*JP) = DBLE(CM(4,IM2))
                   END IF
                END IF
                GO TO 95
@@ -442,6 +452,8 @@ c$$$              END IF
             IF (J.LE.0) GO TO 95
             BODYS(J1) = REAL(CM(1,IM))
             BODYS(J) = REAL(CM(2,IM))
+            BODYDB(J1) = DBLE(CM(1,IM))
+            BODYDB(J) = DBLE(CM(2,IM))
             ZMB = REAL(CM(1,IM) + CM(2,IM))
 *     Form global coordinates and velocities from c.m. with XREL & VREL.
             DO K = 1,3
@@ -454,6 +466,11 @@ c$$$              END IF
                XS(K,J)  = REAL(X1(K,2))
                VS(K,J1) = REAL(V1(K,1))
                VS(K,J)  = REAL(V1(K,2))
+
+               XDB(K,J1) = DBLE(X1(K,1))
+               XDB(K,J)  = DBLE(X1(K,2))
+               VDB(K,J1) = DBLE(V1(K,1))
+               VDB(K,J)  = DBLE(V1(K,2))
             END DO
 *     Look for ghosts of possible second (i.e. outer) merged binary.
 c$$$            if(rank.eq.0)print*,' after findj t,j1,j2,jpair,j,im=',j1,
@@ -471,6 +488,11 @@ c$$$     &           nmerge,name(j1),name(j2),name(icm)
                BODYS(I2) = REAL(CM(4,IM))
                BODYS(J2) = REAL(CM(2,IM))
                BODYS(J) = REAL(CM(3,IM) + CM(4,IM))
+
+               BODYDB(I1) = DBLE(CM(3,IM))
+               BODYDB(I2) = DBLE(CM(4,IM))
+               BODYDB(J2) = DBLE(CM(2,IM))
+               BODYDB(J) = DBLE(CM(3,IM) + CM(4,IM))
 *     Copy KS variables to local scalars.
                DO K = 1,4
                   UI(K) = U(K,IPAIR)
@@ -512,9 +534,12 @@ c$$$     &           nmerge,name(j1),name(j2),name(icm)
 *       Copy global address from common JLIST (set in CHDATA).
               J = JLIST(L)
               BODYS(J) = REAL(BODYJ(L))
+              BODYDB(J) = DBLE(BODYJ(L))
               DO 97 K = 1,3
                   XS(K,J) = REAL(XJ(K,L))
                   VS(K,J) = REAL(VJ(K,L))
+                  XDB(K,J) = DBLE(XJ(K,L))
+                  VDB(K,J) = DBLE(VJ(K,L))
    97         CONTINUE
    98     CONTINUE
       END IF

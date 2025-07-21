@@ -45,8 +45,10 @@
       H_AMP = H_NORM/FRI*F_MW_UNIT
 
 *     scale from NB to Astronomical units
+*     >>> galpy.util.conversion.velocity_in_kpcGyr(vo=1.0,ro=1.0) [Jul 20th 2025]
+*     1.022712165045695
       R_KPC = RSCALE/1000.0D0   ! kpc
-      V_PcMyr = VSCALE*1.02269032D0 ! km/s->pc/Myr
+      V_PcMyr = VSCALE*1.022712165045695D0 ! km/s->pc/Myr
       F_PcMyr2 = RSCALE/(TSCALE*TSCALE) ! pc/Myr^2
       FD_PcMyr3= F_PcMyr2/TSCALE*1000.0D0 ! pc/Myr^3
       P_kpcPcMyr2= F_PcMyr2*R_KPC !pc^2/Myr^2
